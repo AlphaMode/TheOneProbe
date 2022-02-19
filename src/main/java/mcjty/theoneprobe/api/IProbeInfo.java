@@ -3,9 +3,10 @@ package mcjty.theoneprobe.api;
 import java.util.Collection;
 import java.util.List;
 
-import mcjty.theoneprobe.lib.transfer.fluid.FluidStack;
-import mcjty.theoneprobe.lib.transfer.fluid.FluidTank;
-import mcjty.theoneprobe.lib.transfer.fluid.IFluidHandler;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -114,14 +115,14 @@ public interface IProbeInfo {
     /**
      * This creates a Tank Progress bar of 100 width with Fluid Icon Rendering
      */
-    default IProbeInfo tankSimple(long capacity, FluidStack fluid) { return tank(TankReference.createSimple(capacity, fluid));}
-    default IProbeInfo tank(FluidTank tank) { return tank(TankReference.createTank(tank));}
-    default IProbeInfo tankHandler(IFluidHandler handler) { return tank(TankReference.createHandler(handler));}
+    default IProbeInfo tankSimple(long capacity, StorageView<FluidVariant> fluid) { return tank(TankReference.createSimple(capacity, fluid));}
+    default IProbeInfo tank(SingleSlotStorage<FluidVariant> tank) { return tank(TankReference.createTank(tank));}
+    default IProbeInfo tankHandler(Storage<FluidVariant> handler) { return tank(TankReference.createHandler(handler));}
     IProbeInfo tank(TankReference tank);
     
-    default IProbeInfo tankSimple(long capacity, FluidStack fluid, IProgressStyle style) { return tank(TankReference.createSimple(capacity, fluid), style);}
-    default IProbeInfo tank(FluidTank tank, IProgressStyle style) { return tank(TankReference.createTank(tank), style);}
-    default IProbeInfo tankHandler(IFluidHandler handler, IProgressStyle style) { return tank(TankReference.createHandler(handler), style);}
+    default IProbeInfo tankSimple(long capacity, StorageView<FluidVariant> fluid, IProgressStyle style) { return tank(TankReference.createSimple(capacity, fluid), style);}
+    default IProbeInfo tank(SingleSlotStorage<FluidVariant> tank, IProgressStyle style) { return tank(TankReference.createTank(tank), style);}
+    default IProbeInfo tankHandler(Storage<FluidVariant> storage, IProgressStyle style) { return tank(TankReference.createHandler(storage), style);}
     IProbeInfo tank(TankReference tank, IProgressStyle style);
     
     IProbeInfo padding(int width, int height);

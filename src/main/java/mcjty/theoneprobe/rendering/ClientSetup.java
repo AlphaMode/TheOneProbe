@@ -8,7 +8,6 @@ import mcjty.theoneprobe.gui.GuiNote;
 import mcjty.theoneprobe.items.ModItems;
 import mcjty.theoneprobe.keys.KeyBindings;
 import mcjty.theoneprobe.keys.KeyInputHandler;
-import mcjty.theoneprobe.lib.FluidTileDataHandler;
 import mcjty.theoneprobe.lib.KeyInputCallback;
 import mcjty.theoneprobe.network.PacketHandler;
 import net.fabricmc.api.ClientModInitializer;
@@ -31,7 +30,6 @@ public class ClientSetup implements ClientModInitializer {
         ScreenEvents.BEFORE_INIT.register(this::onGuiOpen);
         KeyInputCallback.EVENT.register(KeyInputHandler::onKeyInput);
         KeyBindings.init();
-        FluidTileDataHandler.initClient();
         PacketHandler.registerMessagesClient();
     }
 

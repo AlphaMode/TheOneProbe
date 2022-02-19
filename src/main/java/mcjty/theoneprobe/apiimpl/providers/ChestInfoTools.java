@@ -5,8 +5,10 @@ import mcjty.theoneprobe.api.*;
 import mcjty.theoneprobe.apiimpl.styles.ItemStyle;
 import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
 import mcjty.theoneprobe.config.Config;
-import mcjty.theoneprobe.lib.transfer.TransferUtil;
-import mcjty.theoneprobe.lib.transfer.item.ItemHandlerHelper;
+import mcjty.theoneprobe.lib.TransferHelper;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.world.Container;
@@ -56,13 +58,19 @@ public class ChestInfoTools {
         }
     }
 
+    public static boolean canItemStacksStack(ItemStack first, ItemStack second) {
+        if (first.isEmpty() || !first.sameItem(second) || first.hasTag() != second.hasTag()) return false;
+
+        return !first.hasTag() || first.getTag().equals(second.getTag());
+    }
+
     private static void addItemStack(List<ItemStack> stacks, Set<Item> foundItems, @Nonnull ItemStack stack) {
         if (stack.isEmpty()) {
             return;
         }
         if (foundItems != null && foundItems.contains(stack.getItem())) {
             for (ItemStack s : stacks) {
-                if (ItemHandlerHelper.canItemStacksStack(s, stack)) {
+                if (canItemStacksStack(s, stack)) {
                     s.grow(stack.getCount());
                     return;
                 }
@@ -83,6 +91,8 @@ public class ChestInfoTools {
         IProbeInfo vertical = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(Config.chestContentsBorderColor).spacing(0));
 
         if (detailed) {
+            horizontal.text("These results are not accurate!");
+            horizontal.text("Due to limitations with the transfer api");
             for (ItemStack stackInSlot : stacks) {
                 horizontal = vertical.horizontal(new LayoutStyle().spacing(10).alignment(ElementAlignment.ALIGN_CENTER));
                 horizontal.item(stackInSlot, new ItemStyle().width(16).height(16))
@@ -109,14 +119,15 @@ public class ChestInfoTools {
         Set<Item> foundItems = Config.compactEqualStacks.get() ? new HashSet<>() : null;
         AtomicInteger maxSlots = new AtomicInteger();
         try {
-            if (te != null && TransferUtil.getItemHandler(te).isPresent()) {
-               TransferUtil.getItemHandler(te).ifPresent(capability -> {
-                    maxSlots.set(capability.getSlots());
-                    for (int i = 0; i < maxSlots.get(); i++) {
-                        addItemStack(stacks, foundItems, capability.getStackInSlot(i));
-                    }
-
-                });
+            if (te != null && TransferHelper.getItemStorage(te) != null) {
+               try(Transaction t = Transaction.openOuter()) {
+                   int max = 0;
+                   for (StorageView<ItemVariant> view : TransferHelper.getItemStorage(te).iterable(t)) {
+                       addItemStack(stacks, foundItems, view.getResource().toStack());
+                        max++;
+                   }
+                   maxSlots.set(max);
+               }
             } else if (te instanceof Container inventory) {
                 maxSlots.set(inventory.getContainerSize());
                 for (int i = 0; i < maxSlots.get(); i++) {
