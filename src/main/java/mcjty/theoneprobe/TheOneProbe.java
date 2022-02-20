@@ -2,6 +2,7 @@ package mcjty.theoneprobe;
 
 import mcjty.theoneprobe.api.IProbeInfoEntityProvider;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
+import mcjty.theoneprobe.api.ITheOneProbePlugin;
 import mcjty.theoneprobe.apiimpl.TheOneProbeImp;
 import mcjty.theoneprobe.apiimpl.providers.*;
 import mcjty.theoneprobe.commands.ModCommands;
@@ -61,6 +62,9 @@ public class TheOneProbe implements ModInitializer {
         });
         ModItems.init();
         AddProbeTagRecipe.HELMET_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, asResource("probe_helmet"), new AddProbeTagRecipeSerializer());
+        FabricLoader.getInstance().getEntrypoints("top_plugin", ITheOneProbePlugin.class).forEach(top_plugin -> {
+            top_plugin.onLoad(theOneProbeImp);
+        });
     }
 
     private void init() {

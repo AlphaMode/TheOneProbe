@@ -4,8 +4,8 @@ import net.minecraft.resources.ResourceLocation;
 
 /**
  * Main interface for this mod. Use this to build probe information
- * Get a reference to an implementation of this interface by calling:
- *         FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "<whatever>.YourClass$GetTheOneProbe");
+ * Get a reference to an implementation of this interface by implementing {@link ITheOneProbePlugin}
+ * and declaring it as an entrypoint under the {@code top_plugin} category
  */
 public interface ITheOneProbe {
 
