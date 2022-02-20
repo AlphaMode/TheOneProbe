@@ -2,15 +2,13 @@ package mcjty.theoneprobe.apiimpl.elements;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import mcjty.theoneprobe.api.ElementAlignment;
-import mcjty.theoneprobe.api.IElement;
-import mcjty.theoneprobe.api.IProgressStyle;
-import mcjty.theoneprobe.api.NumberFormat;
-import mcjty.theoneprobe.api.TankReference;
+import mcjty.theoneprobe.api.*;
 import mcjty.theoneprobe.apiimpl.TheOneProbeImp;
 import mcjty.theoneprobe.apiimpl.client.ElementProgressRender;
 import mcjty.theoneprobe.apiimpl.styles.ProgressStyle;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public class ElementTank implements IElement {
@@ -33,6 +31,7 @@ public class ElementTank implements IElement {
                 .height(buffer.readInt())
                 .prefix(buffer.readComponent())
                 .suffix(buffer.readComponent())
+				.useClientRendering(buffer.readBoolean())
                 .borderColor(buffer.readInt())
                 .filledColor(buffer.readInt())
                 .alternateFilledColor(buffer.readInt())
@@ -50,6 +49,9 @@ public class ElementTank implements IElement {
 	
 	@Override
 	public void render(PoseStack matrixStack, int x, int y) {
+		style.prefix(((MutableComponent) FluidVariantRendering.getName(tank.getFluids().get(0).getResource())).append(": "));
+		Color color = new Color(FluidVariantRendering.getColor(tank.getFluids().get(0).getResource()));
+		style.borderlessColor(color, color.darker().darker());
 		ElementProgressRender.renderTank(matrixStack, x, y, getWidth(), getHeight(), style, tank);
 	}
 	
@@ -70,6 +72,7 @@ public class ElementTank implements IElement {
         buf.writeInt(style.getHeight());
         buf.writeComponent(style.getPrefixComp());
         buf.writeComponent(style.getSuffixComp());
+		buf.writeBoolean(style.getUseClientInfo());
         buf.writeInt(style.getBorderColor());
         buf.writeInt(style.getFilledColor());
         buf.writeInt(style.getAlternatefilledColor());

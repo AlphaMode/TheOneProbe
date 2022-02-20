@@ -91,8 +91,6 @@ public class ChestInfoTools {
         IProbeInfo vertical = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(Config.chestContentsBorderColor).spacing(0));
 
         if (detailed) {
-            horizontal.text("These results are not accurate!");
-            horizontal.text("Due to limitations with the transfer api");
             for (ItemStack stackInSlot : stacks) {
                 horizontal = vertical.horizontal(new LayoutStyle().spacing(10).alignment(ElementAlignment.ALIGN_CENTER));
                 horizontal.item(stackInSlot, new ItemStyle().width(16).height(16))
@@ -123,7 +121,7 @@ public class ChestInfoTools {
                try(Transaction t = Transaction.openOuter()) {
                    int max = 0;
                    for (StorageView<ItemVariant> view : TransferHelper.getItemStorage(te).iterable(t)) {
-                       addItemStack(stacks, foundItems, view.getResource().toStack());
+                       addItemStack(stacks, foundItems, new ItemStack(view.getResource().getItem(), (int) view.getAmount()));
                         max++;
                    }
                    maxSlots.set(max);

@@ -9,6 +9,7 @@ import mcjty.theoneprobe.apiimpl.ProbeConfig;
 import mcjty.theoneprobe.apiimpl.elements.ElementProgress;
 import mcjty.theoneprobe.compat.TeslaTools;
 import mcjty.theoneprobe.config.Config;
+import mcjty.theoneprobe.lib.FluidUnit;
 import mcjty.theoneprobe.lib.TransferHelper;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
@@ -244,10 +245,11 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
         }
     }
 
-    private void addFluidInfo(IProbeInfo probeInfo, ProbeConfig config, StorageView<FluidVariant> fluidStack, long maxContents) {
-        long contents = fluidStack.getAmount();
+    private void addFluidInfo(IProbeInfo probeInfo, ProbeConfig config, StorageView<FluidVariant> fluidStack, long max) {
+        long contents = FluidUnit.getAmountFromDroplets(fluidStack.getAmount());
+        long maxContents = FluidUnit.getAmountFromDroplets(max);
     	if(config.getTankMode() == 1) {
-        	Color color = new Color(FluidVariantRendering.getColor(fluidStack.getResource()));
+        	Color color = new Color(0/*FluidVariantRendering.getColor(fluidStack.getResource())*/);
         	if (Objects.equals(fluidStack.getResource().getFluid(), Fluids.LAVA)) {
     			color = new Color(255, 139, 27);
         	}
@@ -255,15 +257,16 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
         	text.append(ElementProgress.format(contents, Config.tankFormat.get(), new TextComponent("mB")));
         	text.append("/");
         	text.append(ElementProgress.format(maxContents, Config.tankFormat.get(), new TextComponent("mB")));
-        	probeInfo.tankSimple(maxContents, fluidStack, 
+        	probeInfo.tankSimple(max, fluidStack,
         			probeInfo.defaultProgressStyle()
         			.numberFormat(NumberFormat.NONE)
         			.borderlessColor(color, color.darker().darker())
-        			.prefix(((MutableComponent)FluidVariantRendering.getName(fluidStack.getResource())).append(": "))
+//        			.prefix(((MutableComponent)FluidVariantRendering.getName(fluidStack.getResource())).append(": "))
+                    .useClientRendering(true)
         			.suffix(text));
         } else {
             if (!(fluidStack.getAmount() <= 0 || fluidStack.getResource().isBlank())) {
-                probeInfo.text(CompoundText.create().style(NAME).text("Liquid:").info(FluidVariantRendering.getName(fluidStack.getResource())));
+                probeInfo.text(CompoundText.create().style(NAME).text("Liquid:").info(fluidStack.getResource().getFluid().defaultFluidState().createLegacyBlock().getBlock().getName()));
             }
             if (config.getTankMode() == 2) {
                 probeInfo.progress(contents, maxContents,
@@ -315,7 +318,7 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
                             .borderColor(Config.rfbarBorderColor)
                             .numberFormat(Config.rfFormat.get()));
         } else {
-            probeInfo.text(CompoundText.create().style(PROGRESS).text("FE: " + ElementProgress.format(energy, Config.rfFormat.get(), new TextComponent("FE"))));
+            probeInfo.text(CompoundText.create().style(PROGRESS).text("E: " + ElementProgress.format(energy, Config.rfFormat.get(), new TextComponent("E"))));
         }
     }
 

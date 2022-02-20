@@ -23,6 +23,7 @@ public class ProgressStyle implements IProgressStyle {
 	private ElementAlignment alignment = ElementAlignment.ALIGN_TOPLEFT;
 	private Component prefix = TextComponent.EMPTY;
 	private Component suffix = TextComponent.EMPTY;
+    private boolean useClientInfo = false;
 
     private NumberFormat numberFormat = NumberFormat.FULL;
     
@@ -99,7 +100,13 @@ public class ProgressStyle implements IProgressStyle {
 		return this;
 	}
 
-	@Override
+    @Override
+    public IProgressStyle useClientRendering(boolean toggle) {
+        this.useClientInfo = toggle;
+        return this;
+    }
+
+    @Override
 	public ProgressStyle alignment(ElementAlignment align) {
 		this.alignment = align;
 		return this;
@@ -179,7 +186,12 @@ public class ProgressStyle implements IProgressStyle {
 		return suffix;
 	}
 
-	@Override
+    @Override
+    public boolean getUseClientInfo() {
+        return useClientInfo;
+    }
+
+    @Override
 	public ElementAlignment getAlignment() {
 		return alignment;
 	}

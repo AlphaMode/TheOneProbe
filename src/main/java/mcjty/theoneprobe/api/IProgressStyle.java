@@ -46,6 +46,8 @@ public interface IProgressStyle {
     
     IProgressStyle prefix(Component prefix);
     IProgressStyle suffix(Component suffix);
+
+    IProgressStyle useClientRendering(boolean toggle);
     
     default IProgressStyle prefix(String prefix, Object...args) { return prefix(new TranslatableComponent(prefix, args)); }
     default IProgressStyle suffix(String suffix, Object...args){ return suffix(new TranslatableComponent(suffix, args)); }
@@ -73,6 +75,8 @@ public interface IProgressStyle {
     String getSuffix();
     Component getPrefixComp();
     Component getSuffixComp();
+
+    boolean getUseClientInfo();
     
     int getWidth();
     int getHeight();

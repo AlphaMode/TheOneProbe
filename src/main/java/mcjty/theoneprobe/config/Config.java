@@ -8,6 +8,7 @@ import mcjty.theoneprobe.api.TextStyleClass;
 import mcjty.theoneprobe.apiimpl.ProbeConfig;
 import mcjty.theoneprobe.apiimpl.styles.DefaultOverlayStyle;
 import mcjty.theoneprobe.items.IEnumConfig;
+import mcjty.theoneprobe.lib.FluidUnit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -129,6 +130,8 @@ public class Config {
     public static final Map<TextStyleClass, String> defaultTextStyleClasses = new HashMap<>();
     public static Map<TextStyleClass, ConfigValue<String>> cfgtextStyleClasses = new HashMap<>();
     public static Map<TextStyleClass, String> textStyleClasses;
+    public static EnumValue<FluidUnit> cfgFluidUnit;
+    public static FluidUnit fluidUnitType;
 
     public static IntValue loggingThrowableTimeout;
 
@@ -217,6 +220,12 @@ public class Config {
         probeDistance = CLIENT_BUILDER
                 .comment("Distance at which the probe works")
                 .defineInRange("probeDistance", 6.0, 0.1, 200);
+        cfgFluidUnit = CLIENT_BUILDER
+                .comment(new String[]{
+                        "The fluid unit that will be displayed when viewing fluids",
+                        "Example: 1000 mB or 81000 Droplets"
+                })
+                .defineEnum("fluidUnitType", FluidUnit.MILIBUCKETS);
         initDefaultConfig();
 
         showDebugInfo = COMMON_BUILDER
@@ -270,7 +279,7 @@ public class Config {
                         s -> s instanceof String);
         harvestabilityTags = COMMON_BUILDER
                 .comment("A list of <tag>=<name> containing all harvestability tags with their associated name to display")
-                .defineList("harvestabilityTags", List.of("forge:needs_wood_tool=Wood", "forge:needs_gold_tool=Gold",
+                .defineList("harvestabilityTags", List.of("c:needs_wood_tool=Wood", "c:needs_gold_tool=Gold",
                         "minecraft:needs_stone_tool=Stone", "minecraft:needs_iron_tool=Iron", "minecraft:needs_diamond_tool=Diamond",
                         "forge:needs_netherite_tool=Netherite"),
                         s -> s instanceof String);
@@ -324,6 +333,7 @@ public class Config {
         cfgshowAnimalOwnerSetting = addModeConfig("showAnimalOwnerSetting", "Show animal owner setting (0 = not, 1 = always, 2 = sneak)", DEFAULT_CONFIG.getAnimalOwnerSetting());
         cfgshowHorseStatSetting = addModeConfig("showHorseStatSetting", "Show horse stats setting (0 = not, 1 = always, 2 = sneak)", DEFAULT_CONFIG.getHorseStatSetting());
         cfgshowSilverfish = addModeConfig("showSilverfish", "Reveal monster eggs (0 = not, 1 = always, 2 = sneak)", DEFAULT_CONFIG.getShowSilverfish());
+
     }
 
     public static void setProbeNeeded(int probeNeeded) {
@@ -395,6 +405,7 @@ public class Config {
             newformat.put(styleClass, configValue);
         }
         cfgtextStyleClasses = newformat;
+        fluidUnitType = FluidUnit.MILIBUCKETS;
 
         CLIENT_BUILDER.pop();
 
