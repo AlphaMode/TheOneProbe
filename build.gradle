@@ -22,7 +22,7 @@ repositories {
 }
 
 group= "mcjty.theoneprobe" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "theoneprobe"
+archivesBaseName = "theoneprobe-fabric"
 
 if (System.getenv('BUILD_NUMBER') != null) {
     version += "-${System.getenv('BUILD_NUMBER')}"
