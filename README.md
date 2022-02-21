@@ -18,11 +18,11 @@ This mod also has a flexible API that other mods can use to add more information
 
     repositories {
         maven { // TOP
-            url "https://maven.k-4u.nl"
+            url "https://maven.wispforest.io"
         }
 
     dependencies {
-        implementation "mcjty.theoneprobe:theoneprobe:${top_version}"
+        implementation "mcjty.theoneprobe:theoneprobe-fabric:${top_version}"
     }
 
 ## Licence
@@ -40,5 +40,6 @@ You're free to use the mod in your modpack.
 ## Credits
 
 - [McJty](https://twitter.com/McJty) - Project Owner
-
+- AlphaMode - Fabric Port
+- [glisco](https://github.com/gliscowo) - Wisp Forest Maven 
 **Copyright © 2016 McJty**
