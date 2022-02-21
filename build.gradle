@@ -24,6 +24,8 @@ repositories {
 group= "mcjty.theoneprobe" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "theoneprobe-fabric"
 
+def ENV = System.getenv()
+
 if (System.getenv('BUILD_NUMBER') != null) {
     version += "-${System.getenv('BUILD_NUMBER')}"
 } else {
@@ -121,43 +123,18 @@ artifacts {
 }
 
 publishing {
-    publications.create('mavenJava', MavenPublication) {
-        from components.java
-        artifact apiJar
-
-        artifactId = project.archivesBaseName
-        pom {
-            name = 'RFToolsBase'
-            description = 'Base mod for all McJty tech mods'
-            scm {
-                url = 'https://github.com/McJtyMods/RFToolsBase'
-                connection = 'scm:git:git@github.com:McJtyMods/RFToolsBase.git'
-                developerConnection = 'scm:git:git@github.com:McJtyMods/RFToolsBase.git'
-            }
-            issueManagement {
-                system = 'github'
-                url = 'https://github.com/McJtyMods/RFToolsBase/issues'
-            }
-            licenses {
-                license {
-                    name = 'MIT'
-                    distribution = 'repo'
-                }
-            }
-            developers {
-                developer {
-                    id = 'McJty'
-                    name = 'McJty'
-                    roles = ['developer']
-                }
-            }
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
         }
     }
+
     repositories {
-        if (System.getenv('local_maven') != null) {
-            maven {
-                name = 'local'
-                url = 'file://' + System.getenv('local_maven')
+        maven {
+            url ENV.MAVEN_URL
+            credentials {
+                username ENV.MAVEN_USER
+                password ENV.MAVEN_PASSWORD
             }
         }
     }
