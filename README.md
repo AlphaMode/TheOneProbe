@@ -1,5 +1,7 @@
-![The One Probe (TOP) Logo](https://media-elerium.cursecdn.com/avatars/41/170/635991514554675962.png)
 # The One Probe (TOP) - Minecraft Mod
+
+<img src="https://i.imgur.com/oMWYlRC.png" width=150 alt="The One Probe (TOP) Logo"/>
+
 _More immersive alternative for WAILA_
 
 ## Introduction to The One Probe (TOP)
@@ -15,15 +17,16 @@ This mod also has a flexible API that other mods can use to add more information
 ***
 
 ## Maven
-
-    repositories {
-        maven { // TOP
-            url "https://maven.wispforest.io"
-        }
-
-    dependencies {
-        implementation "mcjty.theoneprobe:theoneprobe-fabric:${top_version}"
+```groovy
+repositories {
+    maven { // TOP
+        url "https://maven.wispforest.io"
     }
+
+dependencies {
+    implementation "mcjty.theoneprobe:theoneprobe-fabric:${top_version}"
+}
+```
 
 ## Licence
 
@@ -42,4 +45,6 @@ You're free to use the mod in your modpack.
 - [McJty](https://twitter.com/McJty) - Project Owner
 - AlphaMode - Fabric Port
 - [glisco](https://github.com/gliscowo) - Wisp Forest Maven 
+
+
 **Copyright © 2016 McJty**
