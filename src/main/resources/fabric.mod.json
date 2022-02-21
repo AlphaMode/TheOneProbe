@@ -3,6 +3,7 @@
   "id": "theoneprobe",
   "version": "${version}",
 
+  "icon": "assets/theoneprobe/icon.png",
   "name": "The One Probe",
   "description": "The One Probe lets you examine the block that you are looking at. Having a\nprobe in your hand lets you examine it better but you can also make this\nprobe required if you so desire.",
   "authors": [
