@@ -1,4 +1,6 @@
-# The One Probe (TOP) - Minecraft Mod [Unofficial Fabric Port]
+# The One Probe (TOP) - Minecraft Mod [Fabric]
+
+This is an unofficial Fabric port of the original mod by McJty, for the Forge version head to https://github.com/McJtyMods/TheOneProbe
 
 <img src="https://i.imgur.com/oMWYlRC.png" width=150 alt="The One Probe (TOP) Logo"/>
 
