@@ -312,7 +312,7 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
         if (config.getRFMode() == 1) {
             probeInfo.progress(energy, maxEnergy,
                     probeInfo.defaultProgressStyle()
-                            .suffix("FE")
+                            .suffix("E")
                             .filledColor(Config.rfbarFilledColor)
                             .alternateFilledColor(Config.rfbarAlternateFilledColor)
                             .borderColor(Config.rfbarBorderColor)
