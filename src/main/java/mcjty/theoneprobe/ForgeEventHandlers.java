@@ -17,10 +17,7 @@ public class ForgeEventHandlers {
 //    }
 
     public static void onPlayerCloned(ServerPlayer oldPlayer, ServerPlayer newPlayer, boolean alive) {
-        if (alive) {
-            // We need to copyFrom the capabilities
-            PlayerProperties.getPlayerGotNote(newPlayer).copyFrom(PlayerProperties.getPlayerGotNote(oldPlayer));
-        }
+        PlayerProperties.getPlayerGotNote(newPlayer).copyFrom(PlayerProperties.getPlayerGotNote(oldPlayer));
     }
 
     public static void onPlayerLoggedIn(ServerPlayer player) {
