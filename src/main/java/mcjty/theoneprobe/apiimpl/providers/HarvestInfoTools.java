@@ -4,24 +4,20 @@ import mcjty.theoneprobe.TheOneProbe;
 import mcjty.theoneprobe.api.*;
 import mcjty.theoneprobe.config.Config;
 import mcjty.theoneprobe.items.ModItems;
-import mcjty.theoneprobe.lib.tag.TagHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static mcjty.theoneprobe.api.TextStyleClass.OK;
 import static mcjty.theoneprobe.api.TextStyleClass.WARNING;
@@ -31,7 +27,7 @@ public class HarvestInfoTools {
     private static final ResourceLocation ICONS = new ResourceLocation(TheOneProbe.MODID, "textures/gui/icons.png");
 
     private static String getTools(BlockState state) {
-        Set<TagKey<Block>> tags = ForgeRegistries.BLOCKS.getResourceKey(state.getBlock())
+        Set<TagKey<Block>> tags = Registry.BLOCK.getResourceKey(state.getBlock())
                 .map(key -> Registry.BLOCK.getHolderOrThrow(key).tags().collect(Collectors.toSet()))
                 .orElse(Collections.emptySet());
 //        Set<ResourceLocation> tags = TagHelper.getTags(state.getBlock());
@@ -50,7 +46,7 @@ public class HarvestInfoTools {
     }
 
     private static String getLevels(BlockState state) {
-        Set<TagKey<Block>> tags = ForgeRegistries.BLOCKS.getResourceKey(state.getBlock())
+        Set<TagKey<Block>> tags = Registry.BLOCK.getResourceKey(state.getBlock())
                 .map(key -> Registry.BLOCK.getHolderOrThrow(key).tags().collect(Collectors.toSet()))
                 .orElse(Collections.emptySet());
 //        Set<ResourceLocation> tags = TagHelper.getTags(state.getBlock());

@@ -1,6 +1,8 @@
 package mcjty.theoneprobe.network;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Collection;
@@ -14,9 +16,28 @@ public class NetworkTools {
         return stack;
     }
 
+    public static FriendlyByteBuf writeItemStack(FriendlyByteBuf buf, ItemStack pStack, boolean limitedTag) {
+        if (pStack.isEmpty()) {
+            buf.writeBoolean(false);
+        } else {
+            buf.writeBoolean(true);
+            Item item = pStack.getItem();
+            buf.writeVarInt(Item.getId(item));
+            buf.writeByte(pStack.getCount());
+            CompoundTag compoundtag = null;
+            if (item.shouldOverrideMultiplayerNbt()) {
+                compoundtag = pStack.getTag();
+            }
+
+            buf.writeNbt(compoundtag);
+        }
+
+        return buf;
+    }
+
     /// This function supports itemstacks with more then 64 items.
     public static void writeItemStack(FriendlyByteBuf buf, ItemStack itemStack) {
-        buf.writeItemStack(itemStack, false);
+        writeItemStack(buf, itemStack, false);
         buf.writeInt(itemStack.getCount());
     }
 
