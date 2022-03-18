@@ -1,3 +1,10 @@
+1.18-5.1.0:
+- Port to 1.18.2
+
+1.18-5.0.4:
+- Fixed a lag problem with the shulker
+- Optimized itemstack propagation a bit
+
 1.18-5.0.3:
 - Fixed a problem with mob spawners causing an error in TOP
 - Small optimization from DreenDex to disable shadow rendering for entities in the gui
