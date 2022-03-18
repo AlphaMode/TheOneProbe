@@ -89,7 +89,7 @@ public class TheOneProbe implements ModInitializer {
             }
         }
 
-        ServerPlayerEvents.AFTER_RESPAWN.register(ForgeEventHandlers::onPlayerCloned);
+        ServerPlayerEvents.COPY_FROM.register(ForgeEventHandlers::onPlayerCloned);
         CommandRegistrationCallback.EVENT.register(ModCommands::register);
 
         registerCapabilities();
