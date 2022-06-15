@@ -22,8 +22,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -234,7 +234,7 @@ public class OverlayRenderer {
             float damage = Minecraft.getInstance().gameMode.destroyProgress;
             if (damage > 0) {
                 if (Config.showBreakProgress.get() == 2) {
-                    damageElement = new ElementText(new TextComponent("Progress " + (int) (damage * 100) + "%").withStyle(ChatFormatting.RED));
+                    damageElement = new ElementText(Component.literal("Progress " + (int) (damage * 100) + "%").withStyle(ChatFormatting.RED));
                 } else {
                     damageElement = new ElementProgress((long) (damage * 100), 100, new ProgressStyle()
                             .prefix("Progress ")

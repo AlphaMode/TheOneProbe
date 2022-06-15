@@ -8,7 +8,7 @@ import net.minecraft.world.item.crafting.ShapedRecipe;
 
 public class AddProbeTagRecipe extends AbstractRecipeAdaptor {
 
-    public static AddProbeTagRecipeSerializer HELMET_SERIALIZER;
+    public static RecipeSerializer HELMET_SERIALIZER;
 
     public AddProbeTagRecipe(ShapedRecipe recipe) {
         super(recipe);

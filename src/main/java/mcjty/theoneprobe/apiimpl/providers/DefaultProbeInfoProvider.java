@@ -24,6 +24,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -253,10 +254,10 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
         	if (Objects.equals(fluidStack.getResource().getFluid(), Fluids.LAVA)) {
     			color = new Color(255, 139, 27);
         	}
-        	MutableComponent text = new TextComponent("");
-        	text.append(ElementProgress.format(contents, Config.tankFormat.get(), new TextComponent("mB")));
+        	MutableComponent text = Component.literal("");
+        	text.append(ElementProgress.format(contents, Config.tankFormat.get(), Component.literal("mB")));
         	text.append("/");
-        	text.append(ElementProgress.format(maxContents, Config.tankFormat.get(), new TextComponent("mB")));
+        	text.append(ElementProgress.format(maxContents, Config.tankFormat.get(), Component.literal("mB")));
         	probeInfo.tankSimple(max, fluidStack,
         			probeInfo.defaultProgressStyle()
         			.numberFormat(NumberFormat.NONE)
@@ -277,7 +278,7 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
                                 .borderColor(Config.tankbarBorderColor)
                                 .numberFormat(Config.tankFormat.get()));
             } else {
-                probeInfo.text(CompoundText.create().style(PROGRESS).text(ElementProgress.format(contents, Config.tankFormat.get(), new TextComponent("mB"))));
+                probeInfo.text(CompoundText.create().style(PROGRESS).text(ElementProgress.format(contents, Config.tankFormat.get(), Component.literal("mB"))));
             }
         }
     }
@@ -318,7 +319,7 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
                             .borderColor(Config.rfbarBorderColor)
                             .numberFormat(Config.rfFormat.get()));
         } else {
-            probeInfo.text(CompoundText.create().style(PROGRESS).text("E: " + ElementProgress.format(energy, Config.rfFormat.get(), new TextComponent("E"))));
+            probeInfo.text(CompoundText.create().style(PROGRESS).text("E: " + ElementProgress.format(energy, Config.rfFormat.get(), Component.literal("E"))));
         }
     }
 
