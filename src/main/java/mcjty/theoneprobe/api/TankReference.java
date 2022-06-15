@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.network.FriendlyByteBuf;
 
@@ -87,25 +86,23 @@ public final class TankReference {
         long capacity = 0;
         long stored = 0;
         List<StorageView<FluidVariant>> fluids = new ArrayList<>();
-        try (Transaction t = Transaction.openOuter()) {
-            for (StorageView<FluidVariant> view : storage.iterable(t)) {
-                capacity += view.getCapacity();
-                fluids.add(view);
-                stored += view.getAmount();
-            }
-            t.abort();
+
+        for (var view : storage) {
+            capacity += view.getCapacity();
+            fluids.add(view);
+            stored += view.getAmount();
         }
+
         return new TankReference(capacity, stored, fluids);
     }
 
     /// Any Fluid Handler but splits each internal Tank into its own Progress Bar
     public static TankReference[] createSplitHandler(Storage<FluidVariant> storage) {
         List<TankReference> references = new ArrayList<>();
-        try(Transaction t = Transaction.openOuter()) {
-            for(StorageView<FluidVariant> view : storage.iterable(t)) {
-                references.add(new TankReference(view.getCapacity(), view.getAmount(), List.of(view)));
-            }
+        for (StorageView<FluidVariant> view : storage) {
+            references.add(new TankReference(view.getCapacity(), view.getAmount(), List.of(view)));
         }
+
         return (TankReference[]) references.stream().toArray();
     }
 
@@ -113,10 +110,10 @@ public final class TankReference {
         buffer.writeLong(capacity);
         buffer.writeLong(stored);
         buffer.writeInt(fluids.size());
-		for (StorageView<FluidVariant> fluid : fluids) {
-			fluid.getResource().toPacket(buffer);
+        for (StorageView<FluidVariant> fluid : fluids) {
+            fluid.getResource().toPacket(buffer);
             buffer.writeLong(fluid.getAmount());
             buffer.writeLong(fluid.getCapacity());
-		}
+        }
     }
 }

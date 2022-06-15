@@ -7,7 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.decoration.Motive;
+import net.minecraft.world.entity.decoration.PaintingVariant;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -15,7 +15,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.material.Fluid;
 import org.apache.commons.lang3.StringUtils;
 
@@ -53,10 +53,10 @@ public class Tools {
             return Registry.ENTITY_TYPE.getKey(entityType);
         if(obj instanceof Potion potion)
             return Registry.POTION.getKey(potion);
-        if(obj instanceof StructureFeature structureFeature)
-            return Registry.STRUCTURE_FEATURE.getKey(structureFeature);
-        if(obj instanceof Motive motive)
-            return Registry.MOTIVE.getKey(motive);
+        if(obj instanceof StructureType<?> structureFeature)
+            return Registry.STRUCTURE_TYPES.getKey(structureFeature);
+        if(obj instanceof PaintingVariant variant)
+            return Registry.PAINTING_VARIANT.getKey(variant);
         if(obj instanceof SoundEvent soundEvent)
             return Registry.SOUND_EVENT.getKey(soundEvent);
         if(obj instanceof GameEvent gameEvent)

@@ -1,7 +1,6 @@
 package mcjty.theoneprobe.apiimpl.elements;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import mcjty.theoneprobe.api.*;
 import mcjty.theoneprobe.apiimpl.TheOneProbeImp;
 import mcjty.theoneprobe.apiimpl.client.ElementProgressRender;
@@ -14,16 +13,16 @@ import net.minecraft.resources.ResourceLocation;
 public class ElementTank implements IElement {
 	private final TankReference tank;
 	private final IProgressStyle style;
-	
+
 	public ElementTank(TankReference tank) {
 		this(tank, new ProgressStyle());
 	}
-	
+
 	public ElementTank(TankReference tank, IProgressStyle style) {
 		this.tank = tank;
 		this.style = style;
 	}
-	
+
 	public ElementTank(FriendlyByteBuf buffer) {
 		tank = new TankReference(buffer);
         style = new ProgressStyle()
@@ -42,29 +41,29 @@ public class ElementTank implements IElement {
                 .armorBar(buffer.readBoolean())
                 .alignment(buffer.readEnum(ElementAlignment.class));
 	}
-	
+
 	public IProgressStyle getStyle() {
 		return style;
 	}
-	
+
 	@Override
 	public void render(PoseStack matrixStack, int x, int y) {
-		style.prefix(((MutableComponent) FluidVariantRendering.getName(tank.getFluids().get(0).getResource())).append(": "));
+		style.prefix(((MutableComponent) FluidVariantRendering.getTooltip(tank.getFluids().get(0).getResource()).get(0)).append(": "));
 		Color color = new Color(FluidVariantRendering.getColor(tank.getFluids().get(0).getResource()));
 		style.borderlessColor(color, color.darker().darker());
 		ElementProgressRender.renderTank(matrixStack, x, y, getWidth(), getHeight(), style, tank);
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return style.getWidth();
 	}
-	
+
 	@Override
 	public int getHeight() {
 		return style.getHeight();
 	}
-	
+
 	@Override
 	public void toBytes(FriendlyByteBuf buf) {
 		tank.toBytes(buf);
@@ -83,7 +82,7 @@ public class ElementTank implements IElement {
         buf.writeBoolean(style.isArmorBar());
         buf.writeEnum(style.getAlignment());
 	}
-	
+
 	@Override
 	public ResourceLocation getID() {
 		return TheOneProbeImp.ELEMENT_TANK;

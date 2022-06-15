@@ -1,7 +1,6 @@
 package mcjty.theoneprobe.apiimpl.providers;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.datafixers.util.Pair;
 import mcjty.theoneprobe.TheOneProbe;
 import mcjty.theoneprobe.Tools;
 import mcjty.theoneprobe.api.*;
@@ -13,11 +12,9 @@ import mcjty.theoneprobe.lib.FluidUnit;
 import mcjty.theoneprobe.lib.TransferHelper;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.Util;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
@@ -26,7 +23,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -159,7 +155,7 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
                 note = 24;
             }
             probeInfo.horizontal(probeInfo.defaultLayoutStyle()
-                    .alignment(ElementAlignment.ALIGN_CENTER))
+                            .alignment(ElementAlignment.ALIGN_CENTER))
                     .text(CompoundText.create().style(LABEL).text("Note: ")
                             .info(instrument.name().toLowerCase() + " " + NOTE_TABLE[note] + " (" + note + ")"));
         }
@@ -172,7 +168,7 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
                 GameProfile profile = skullBlockEntity.getOwnerProfile();
                 if (profile != null) {
                     probeInfo.horizontal(probeInfo.defaultLayoutStyle()
-                            .alignment(ElementAlignment.ALIGN_CENTER))
+                                    .alignment(ElementAlignment.ALIGN_CENTER))
                             .text(CompoundText.create().style(LABEL).text("Player: ")
                                     .info(profile.getName()));
                 }
@@ -188,14 +184,14 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
                 CompoundTag tag = logic.nextSpawnData.getEntityToSpawn();
                 Optional<EntityType<?>> optional = EntityType.by(tag);
                 optional.ifPresent(type -> probeInfo.horizontal(probeInfo.defaultLayoutStyle()
-                        .alignment(ElementAlignment.ALIGN_CENTER))
+                                .alignment(ElementAlignment.ALIGN_CENTER))
                         .text(CompoundText.create().style(LABEL).text("Mob: ").info(type.getDescriptionId())));
             }
         }
     }
 
     private void showRedstonePower(IProbeInfo probeInfo, Level world, BlockState blockState, IProbeHitData data, Block block,
-								   boolean showLever) {
+                                   boolean showLever) {
         if (showLever && block instanceof LeverBlock) {
             // We are showing the lever setting so we don't show redstone in that case
             return;
@@ -235,12 +231,10 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
         ProbeConfig config = Config.getDefaultConfig();
         BlockEntity te = world.getBlockEntity(pos);
         if (te != null && TransferHelper.getFluidStorage(te) != null) {
-            try (Transaction t = Transaction.openOuter()) {
-                for (StorageView<FluidVariant> view : TransferHelper.getFluidStorage(te).iterable(t)) {
-                    long maxContents = view.getCapacity();
-                    if(!view.getResource().isBlank()) {
-                        addFluidInfo(probeInfo, config, view, maxContents);
-                    }
+            for (var view : TransferHelper.getFluidStorage(te)) {
+                long maxContents = view.getCapacity();
+                if (!view.getResource().isBlank()) {
+                    addFluidInfo(probeInfo, config, view, maxContents);
                 }
             }
         }
@@ -249,22 +243,22 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
     private void addFluidInfo(IProbeInfo probeInfo, ProbeConfig config, StorageView<FluidVariant> fluidStack, long max) {
         long contents = FluidUnit.getAmountFromDroplets(fluidStack.getAmount());
         long maxContents = FluidUnit.getAmountFromDroplets(max);
-    	if(config.getTankMode() == 1) {
-        	Color color = new Color(0/*FluidVariantRendering.getColor(fluidStack.getResource())*/);
-        	if (Objects.equals(fluidStack.getResource().getFluid(), Fluids.LAVA)) {
-    			color = new Color(255, 139, 27);
-        	}
-        	MutableComponent text = Component.literal("");
-        	text.append(ElementProgress.format(contents, Config.tankFormat.get(), Component.literal("mB")));
-        	text.append("/");
-        	text.append(ElementProgress.format(maxContents, Config.tankFormat.get(), Component.literal("mB")));
-        	probeInfo.tankSimple(max, fluidStack,
-        			probeInfo.defaultProgressStyle()
-        			.numberFormat(NumberFormat.NONE)
-        			.borderlessColor(color, color.darker().darker())
+        if (config.getTankMode() == 1) {
+            Color color = new Color(0/*FluidVariantRendering.getColor(fluidStack.getResource())*/);
+            if (Objects.equals(fluidStack.getResource().getFluid(), Fluids.LAVA)) {
+                color = new Color(255, 139, 27);
+            }
+            MutableComponent text = Component.literal("");
+            text.append(ElementProgress.format(contents, Config.tankFormat.get(), Component.literal("mB")));
+            text.append("/");
+            text.append(ElementProgress.format(maxContents, Config.tankFormat.get(), Component.literal("mB")));
+            probeInfo.tankSimple(max, fluidStack,
+                    probeInfo.defaultProgressStyle()
+                            .numberFormat(NumberFormat.NONE)
+                            .borderlessColor(color, color.darker().darker())
 //        			.prefix(((MutableComponent)FluidVariantRendering.getName(fluidStack.getResource())).append(": "))
-                    .useClientRendering(true)
-        			.suffix(text));
+                            .useClientRendering(true)
+                            .suffix(text));
         } else {
             if (!(fluidStack.getAmount() <= 0 || fluidStack.getResource().isBlank())) {
                 probeInfo.text(CompoundText.create().style(NAME).text("Liquid:").info(fluidStack.getResource().getFluid().defaultFluidState().createLegacyBlock().getBlock().getName()));
@@ -301,9 +295,9 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
     }
 
     public static EnergyStorage findEnergyStorage(BlockEntity be) {
-        for(Direction direction : Direction.values()) {
+        for (Direction direction : Direction.values()) {
             EnergyStorage energyStorage = EnergyStorage.SIDED.find(be.getLevel(), be.getBlockPos(), direction);
-            if(energyStorage != null)
+            if (energyStorage != null)
                 return energyStorage;
         }
         return null;
@@ -363,7 +357,7 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
     }
 
     public static void showStandardBlockInfo(IProbeConfig config, ProbeMode mode, IProbeInfo probeInfo, BlockState blockState, Block block, Level world,
-											 BlockPos pos, Player player, IProbeHitData data) {
+                                             BlockPos pos, Player player, IProbeHitData data) {
         String modName = Tools.getModName(block);
 
         ItemStack pickBlock = data.getPickBlock();
@@ -385,7 +379,7 @@ public class DefaultProbeInfoProvider implements IProbeInfoProvider {
                 FluidStorage.ITEM.find(bucketStack, ContainerItemContext.withInitial(bucketStack));
 //                FluidUtil.getFluidContained(bucketStack).ifPresent(fc -> {
 //                    if (fluidStack.isFluidEqual(fc)) {
-                        horizontal.item(bucketStack);
+                horizontal.item(bucketStack);
 //                    }
 //                });
 

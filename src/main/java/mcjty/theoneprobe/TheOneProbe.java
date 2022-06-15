@@ -14,7 +14,7 @@ import mcjty.theoneprobe.items.ModItems;
 import mcjty.theoneprobe.network.PacketHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
@@ -120,7 +120,7 @@ public class TheOneProbe implements ModInitializer {
         Registry.register(Registry.RECIPE_SERIALIZER, new ResourceLocation(TheOneProbe.MODID, "probe_helmet"), new AddProbeTagRecipeSerializer());
     }
 
-    private static void registerCapabilities(){
+    private static void registerCapabilities() {
 //        CapabilityManager.INSTANCE.register(PlayerGotNote.class);
     }
 
@@ -132,7 +132,7 @@ public class TheOneProbe implements ModInitializer {
             defaultValues[i++] = provider.getID();
         }
 
-        String[] excludedProviders = new String[] {}; // @todo TheOneProbe.config.getStringList("excludedProviders", Config.CATEGORY_PROVIDERS, new String[] {}, "Providers that should be excluded");
+        String[] excludedProviders = new String[]{}; // @todo TheOneProbe.config.getStringList("excludedProviders", Config.CATEGORY_PROVIDERS, new String[] {}, "Providers that should be excluded");
         Set<String> excluded = new HashSet<>();
         Collections.addAll(excluded, excludedProviders);
 
@@ -147,7 +147,7 @@ public class TheOneProbe implements ModInitializer {
             defaultValues[i++] = provider.getID();
         }
 
-        String[] excludedProviders = new String[] {}; // @todo TheOneProbe.config.getStringList("excludedEntityProviders", Config.CATEGORY_PROVIDERS, new String[] {}, "Entity providers that should be excluded");
+        String[] excludedProviders = new String[]{}; // @todo TheOneProbe.config.getStringList("excludedEntityProviders", Config.CATEGORY_PROVIDERS, new String[] {}, "Entity providers that should be excluded");
         Set<String> excluded = new HashSet<>();
         Collections.addAll(excluded, excludedProviders);
 

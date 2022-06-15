@@ -40,8 +40,8 @@ dependencies {
 
     // names of mojmap with the docs and params of parchment, then docs and params of QM as fallback
     mappings loom.layered {
-        it.addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:1.18.2-rc1+build.5:v2")) // https://maven.quiltmc.org/#browse/browse:release
-        it.parchment("org.parchmentmc.data:parchment-1.18.2:2022.03.13") // https://ldtteam.jfrog.io/ui/native/parchmentmc-public/org/parchmentmc/data/parchment-1.18.1/BLEEDING-SNAPSHOT
+        it.addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:1.19+build.1:v2")) // https://maven.quiltmc.org/#browse/browse:release
+//        it.parchment("org.parchmentmc.data:parchment-1.18.2:2022.03.13") // https://ldtteam.jfrog.io/ui/native/parchmentmc-public/org/parchmentmc/data/parchment-1.18.1/BLEEDING-SNAPSHOT
         it.officialMojangMappings {
             setNameSyntheticMembers(false)
         }

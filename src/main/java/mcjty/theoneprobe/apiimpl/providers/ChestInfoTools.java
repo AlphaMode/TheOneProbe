@@ -8,7 +8,6 @@ import mcjty.theoneprobe.config.Config;
 import mcjty.theoneprobe.lib.TransferHelper;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.world.Container;
@@ -118,14 +117,12 @@ public class ChestInfoTools {
         AtomicInteger maxSlots = new AtomicInteger();
         try {
             if (te != null && TransferHelper.getItemStorage(te) != null) {
-               try(Transaction t = Transaction.openOuter()) {
-                   int max = 0;
-                   for (StorageView<ItemVariant> view : TransferHelper.getItemStorage(te).iterable(t)) {
-                       addItemStack(stacks, foundItems, new ItemStack(view.getResource().getItem(), (int) view.getAmount()));
-                        max++;
-                   }
-                   maxSlots.set(max);
-               }
+                int max = 0;
+                for (StorageView<ItemVariant> view : TransferHelper.getItemStorage(te)) {
+                    addItemStack(stacks, foundItems, new ItemStack(view.getResource().getItem(), (int) view.getAmount()));
+                    max++;
+                }
+                maxSlots.set(max);
             } else if (te instanceof Container inventory) {
                 maxSlots.set(inventory.getContainerSize());
                 for (int i = 0; i < maxSlots.get(); i++) {
