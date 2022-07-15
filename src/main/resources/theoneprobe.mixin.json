@@ -4,6 +4,7 @@
   "package": "mcjty.theoneprobe.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ConfigValueAccessor",
     "common.PlayerListMixin",
     "common.PlayerMixin"
   ],

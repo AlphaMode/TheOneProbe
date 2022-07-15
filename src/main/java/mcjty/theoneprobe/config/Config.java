@@ -9,6 +9,7 @@ import mcjty.theoneprobe.apiimpl.ProbeConfig;
 import mcjty.theoneprobe.apiimpl.styles.DefaultOverlayStyle;
 import mcjty.theoneprobe.items.IEnumConfig;
 import mcjty.theoneprobe.lib.FluidUnit;
+import mcjty.theoneprobe.mixin.ConfigValueAccessor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -314,7 +315,7 @@ public class Config {
 
             @Override
             public T getDefault() {
-                String s = configValue.getDefault();
+                String s = ((ConfigValueAccessor<String>)configValue).getDefaultSupplier().get();
                 for (T value : values) {
                     if (value.name().equals(s)) {
                         return value;
@@ -573,7 +574,7 @@ public class Config {
         if (spec.isLoaded()) {
             return config.get();
         } else {
-            return config.getDefault();
+            return ((ConfigValueAccessor<T>)config).getDefaultSupplier().get();
         }
     }
 
@@ -625,7 +626,7 @@ public class Config {
             if (CLIENT_CONFIG.isLoaded()) {
                 textStyleClasses.put(entry.getKey(), entry.getValue().get());
             } else {
-                textStyleClasses.put(entry.getKey(), entry.getValue().getDefault());
+                textStyleClasses.put(entry.getKey(), ((ConfigValueAccessor<String>)entry.getValue()).getDefaultSupplier().get());
             }
         }
 

@@ -11,6 +11,7 @@ import mcjty.theoneprobe.keys.KeyInputHandler;
 import mcjty.theoneprobe.lib.KeyInputCallback;
 import mcjty.theoneprobe.network.PacketHandler;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.Minecraft;
@@ -29,7 +30,7 @@ public class ClientSetup implements ClientModInitializer {
         HudRenderCallback.EVENT.register(this::renderGameOverlayEvent);
         ScreenEvents.BEFORE_INIT.register(this::onGuiOpen);
         KeyInputCallback.EVENT.register(KeyInputHandler::onKeyInput);
-        KeyBindings.init();
+        onRegisterKeyMappings();
         PacketHandler.registerMessagesClient();
     }
 
@@ -46,10 +47,10 @@ public class ClientSetup implements ClientModInitializer {
         }
     }
 
-    public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
+    public static void onRegisterKeyMappings() {
         KeyBindings.init();
-        event.register(KeyBindings.toggleVisible);
-        event.register(KeyBindings.toggleLiquids);
+        KeyBindingHelper.registerKeyBinding(KeyBindings.toggleVisible);
+        KeyBindingHelper.registerKeyBinding(KeyBindings.toggleLiquids);
     }
 
     public void renderGameOverlayEvent(PoseStack matrixStack, float tickDelta) {

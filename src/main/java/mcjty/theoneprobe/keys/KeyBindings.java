@@ -12,7 +12,5 @@ public class KeyBindings {
     public static void init() {
         toggleLiquids = new KeyMapping("key.toggleLiquids", InputConstants.UNKNOWN.getValue(), "key.categories.theoneprobe");
         toggleVisible = new KeyMapping("key.toggleVisible", InputConstants.UNKNOWN.getValue(), "key.categories.theoneprobe");
-        KeyBindingHelper.registerKeyBinding(toggleLiquids);
-        KeyBindingHelper.registerKeyBinding(toggleVisible);
     }
 }

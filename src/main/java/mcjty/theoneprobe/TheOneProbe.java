@@ -64,7 +64,6 @@ public class TheOneProbe implements ModInitializer {
         AddProbeTagRecipe.HELMET_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, asResource("probe_helmet"), new AddProbeTagRecipeSerializer());
         FabricLoader.getInstance().getEntrypoints("top_plugin", ITheOneProbePlugin.class).forEach(top_plugin -> {
             top_plugin.onLoad(theOneProbeImp);
-            bus.addListener(ClientSetup::onRegisterKeyMappings);
         });
     }
 

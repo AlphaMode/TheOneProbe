@@ -84,7 +84,7 @@ public class HarvestInfoTools {
         }
 
         ItemStack stack = player.getMainHandItem();
-        boolean harvestable = stack.getItem().isCorrectToolForDrops(state);
+        boolean harvestable = stack.getItem().isSuitableFor(stack, state);
         if (harvestable) {
             probeInfo.text(CompoundText.create().style(OK).text("Harvestable"));
         } else {
@@ -94,7 +94,7 @@ public class HarvestInfoTools {
 
     static void showHarvestInfo(IProbeInfo probeInfo, Level world, BlockPos pos, Block block, BlockState blockState, Player player) {
         ItemStack stack = player.getMainHandItem();
-        boolean harvestable = stack.getItem().isCorrectToolForDrops(blockState);
+        boolean harvestable = stack.getItem().isSuitableFor(stack, blockState);
         String tools = getTools(blockState);
         String levels = getLevels(blockState);
 
