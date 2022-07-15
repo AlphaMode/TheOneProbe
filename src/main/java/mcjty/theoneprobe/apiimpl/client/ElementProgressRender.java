@@ -1,12 +1,7 @@
 package mcjty.theoneprobe.apiimpl.client;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Function;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix4f;
 import mcjty.theoneprobe.api.IProgressStyle;
 import mcjty.theoneprobe.api.TankReference;
@@ -23,6 +18,9 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
+
+import java.util.Objects;
+import java.util.function.Function;
 
 public class ElementProgressRender {
 

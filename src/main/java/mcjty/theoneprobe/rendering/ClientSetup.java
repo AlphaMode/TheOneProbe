@@ -46,6 +46,12 @@ public class ClientSetup implements ClientModInitializer {
         }
     }
 
+    public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
+        KeyBindings.init();
+        event.register(KeyBindings.toggleVisible);
+        event.register(KeyBindings.toggleLiquids);
+    }
+
     public void renderGameOverlayEvent(PoseStack matrixStack, float tickDelta) {
         if (Config.holdKeyToMakeVisible.get()) {
             if (!KeyBindings.toggleVisible.isDown()) {
