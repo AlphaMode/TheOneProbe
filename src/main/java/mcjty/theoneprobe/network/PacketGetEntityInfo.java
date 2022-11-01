@@ -8,6 +8,7 @@ import mcjty.theoneprobe.config.Config;
 import mcjty.theoneprobe.items.ModItems;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -101,7 +102,7 @@ public class PacketGetEntityInfo {
         }
 
         if (!Config.getEntityBlacklist().isEmpty()) {
-            ResourceLocation rl = ForgeRegistries.ENTITY_TYPES.getKey(entity.getType());
+            ResourceLocation rl = Registry.ENTITY_TYPE.getKey(entity.getType());
             for (Predicate<ResourceLocation> predicate : Config.getEntityBlacklist()) {
                 if (predicate.test(rl)) {
                     return null;
