@@ -13,17 +13,19 @@ public class TopArmorMaterial implements ArmorMaterial {
     private final int[] damageReduction;
     private final int enchantability;
     private final float toughness;
+    private final float knockbackResistance;
     private final SoundEvent soundEvent;
     private final Ingredient repairMaterial;
 
 
-    public TopArmorMaterial(String name, int durability, int[] damageReduction, int enchantability, SoundEvent soundEvent, float toughness, Ingredient repairMaterial) {
+    public TopArmorMaterial(String name, int durability, int[] damageReduction, int enchantability, SoundEvent soundEvent, float toughness, float knockbackResistance, Ingredient repairMaterial) {
         this.name = name;
         this.durability = durability;
         this.damageReduction = damageReduction;
         this.enchantability = enchantability;
         this.soundEvent = soundEvent;
         this.toughness = toughness;
+        this.knockbackResistance = knockbackResistance;
         this.repairMaterial = repairMaterial;
     }
 
@@ -64,6 +66,6 @@ public class TopArmorMaterial implements ArmorMaterial {
 
     @Override
     public float getKnockbackResistance() {
-        return 0;
+        return knockbackResistance;
     }
 }

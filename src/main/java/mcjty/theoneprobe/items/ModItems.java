@@ -2,6 +2,7 @@ package mcjty.theoneprobe.items;
 
 import mcjty.theoneprobe.TheOneProbe;
 import mcjty.theoneprobe.compat.BaubleTools;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.Registry;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 public class ModItems {
     public static CreativeProbe CREATIVE_PROBE;
     public static Probe PROBE;
+    public static Item NETHERITE_HELMET_PROBE;
     public static Item DIAMOND_HELMET_PROBE;
     public static Item GOLD_HELMET_PROBE;
     public static Item IRON_HELMET_PROBE;
@@ -27,13 +29,15 @@ public class ModItems {
         PROBE = Registry.register(Registry.ITEM, TheOneProbe.asResource("probe"), new Probe());
         CREATIVE_PROBE = Registry.register(Registry.ITEM, TheOneProbe.asResource("creativeprobe"), new CreativeProbe());
 
-        TopArmorMaterial materialDiamondHelmet = new TopArmorMaterial("diamond_helmet_probe", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F, null);
-        TopArmorMaterial materialGoldHelmet = new TopArmorMaterial("gold_helmet_probe", 7, new int[]{1, 3, 5, 2}, 25, SoundEvents.ARMOR_EQUIP_GOLD, 0.0F, null);
-        TopArmorMaterial materialIronHelmet = new TopArmorMaterial("iron_helmet_probe", 15, new int[]{2, 5, 6, 2}, 9, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, null);
+        TopArmorMaterial materialNetheriteHelmet = new TopArmorMaterial("netherite_helmet_probe", 37, new int[]{3, 6, 8, 3}, 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, null);
+        TopArmorMaterial materialDiamondHelmet = new TopArmorMaterial("diamond_helmet_probe", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, null);
+        TopArmorMaterial materialGoldHelmet = new TopArmorMaterial("gold_helmet_probe", 7, new int[]{1, 3, 5, 2}, 25, SoundEvents.ARMOR_EQUIP_GOLD, 0.0F, 0.0F, null);
+        TopArmorMaterial materialIronHelmet = new TopArmorMaterial("iron_helmet_probe", 15, new int[]{2, 5, 6, 2}, 9, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F, null);
 
-        DIAMOND_HELMET_PROBE = makeHelmet(materialDiamondHelmet, 3, "diamond_helmet_probe");
-        GOLD_HELMET_PROBE = makeHelmet(materialGoldHelmet, 4, "gold_helmet_probe");
-        IRON_HELMET_PROBE = makeHelmet(materialIronHelmet, 2, "iron_helmet_probe");
+        NETHERITE_HELMET_PROBE = makeHelmet(materialNetheriteHelmet, 3, "netherite_helmet_probe", new FabricItemSettings().fireResistant());
+        DIAMOND_HELMET_PROBE = makeHelmet(materialDiamondHelmet, 3, "diamond_helmet_probe", new FabricItemSettings());
+        GOLD_HELMET_PROBE = makeHelmet(materialGoldHelmet, 4, "gold_helmet_probe", new FabricItemSettings());
+        IRON_HELMET_PROBE = makeHelmet(materialIronHelmet, 2, "iron_helmet_probe", new FabricItemSettings());
 
         PROBE_NOTE = Registry.register(Registry.ITEM, TheOneProbe.asResource("probenote"), new ProbeNote());
 
@@ -42,8 +46,8 @@ public class ModItems {
         }
     }
 
-    private static Item makeHelmet(TopArmorMaterial material, int renderIndex, String name) {
-        Item item = new ArmorItem(material, EquipmentSlot.HEAD, new Item.Properties()
+    private static Item makeHelmet(TopArmorMaterial material, int renderIndex, String name, Item.Properties settings) {
+        Item item = new ArmorItem(material, EquipmentSlot.HEAD, settings
             .tab(TheOneProbe.tabProbe)) {
 
 //            @Override
