@@ -3,12 +3,14 @@ package mcjty.theoneprobe.items;
 import mcjty.theoneprobe.TheOneProbe;
 import mcjty.theoneprobe.compat.BaubleTools;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -65,6 +67,20 @@ public class ModItems {
 //                    subItems.add(stack);
 //                }
 //            }
+
+            @Override
+            public ItemStack getDefaultInstance() {
+                ItemStack stack = super.getDefaultInstance();
+                stack.getOrCreateTag().putInt(ModItems.PROBETAG, 1);
+                return stack;
+            }
+
+            @Override
+            public void fillItemCategory(CreativeModeTab creativeModeTab, NonNullList<ItemStack> nonNullList) {
+                if (this.allowedIn(creativeModeTab)) {
+                    nonNullList.add(getDefaultInstance());
+                }
+            }
         };
 
         return Registry.register(Registry.ITEM, TheOneProbe.asResource(name), item);
