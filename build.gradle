@@ -44,11 +44,8 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
     modImplementation(include("net.minecraftforge:forgeconfigapiport-fabric:${project.config_api_version}"))
-//    modImplementation(include('com.electronwill.night-config:core:3.6.0'))
-//    modImplementation(include('com.electronwill.night-config:toml:3.6.0'))
 
     modLocalRuntime("com.terraformersmc:modmenu:${project.modmenu_version}")
-    modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}")
 
     include modApi('teamreborn:energy:2.2.0') {
         exclude(group: "net.fabricmc.fabric-api")
