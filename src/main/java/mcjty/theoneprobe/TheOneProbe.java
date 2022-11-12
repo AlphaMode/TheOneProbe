@@ -23,6 +23,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.ModLoadingContext;
 import net.minecraftforge.api.fml.event.config.ModConfigEvent;
+import net.minecraftforge.api.fml.event.config.ModConfigEvents;
 import net.minecraftforge.fml.config.ModConfig;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -52,11 +53,11 @@ public class TheOneProbe implements ModInitializer {
         ModLoadingContext.registerConfig(MODID, ModConfig.Type.COMMON, Config.COMMON_CONFIG);
 
         init();
-        ModConfigEvent.LOADING.register(modConfig -> {
+        ModConfigEvents.loading(MODID).register(modConfig -> {
             Config.onLoad(modConfig);
             ConfigReload.onLoad(modConfig);
         });
-        ModConfigEvent.RELOADING.register(modConfig -> {
+        ModConfigEvents.reloading(MODID).register(modConfig -> {
             Config.onReload(modConfig);
             ConfigReload.onFileChange(modConfig);
         });
