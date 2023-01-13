@@ -1,0 +1,15 @@
+{
+    "key.toggleLiquids": "Folyadéknézet átváltása",
+    "key.toggleVisible": "Láthatósági kapcsoló",
+    "key.categories.theoneprobe": "Az egyetlen szonda",
+    "item.theoneprobe.probe": "Az egyetlen szonda",
+    "item.theoneprobe.probe_goggles": "Az egyetlen szonda (Bauble)",
+    "item.theoneprobe.netherite_helmet_probe": "Netheritsisak szondával",
+    "item.theoneprobe.diamond_helmet_probe": "Gyémántsisak szondával",
+    "item.theoneprobe.gold_helmet_probe": "Aranysisak szondával",
+    "item.theoneprobe.iron_helmet_probe": "Vassisak szondával",
+    "item.theoneprobe.creativeprobe": "Kreatív szonda",
+    "item.theoneprobe.probenote": "Az egyetlen szonda mod leírása",
+
+    "itemGroup.theoneprobe.probe": "Az egyetlen szonda"
+}
